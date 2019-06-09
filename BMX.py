@@ -21,17 +21,16 @@ def BMX_Pico_Read(filename):
 def BMX_Single_Plot(data_Array, time_Array):
     return None
 
-def BMX_Clear_Infs(input_Data, mean_Cutoff, max_Range):
+def BMX_Clear_Infs(input_Data, max_Range):
     """
         This functions changes the Inf values which plague the data.
     """
-    data = input_Data - np.mean(input_Data[0:mean_Cutoff])
-    neg_Infs = np.isneginf(data)
-    data[np.where(neg_Infs)] = -max_Range
-    pos_Infs = np.isposinf(data)
-    data[np.where(pos_Infs)] = max_Range
+    neg_Infs = np.isneginf(input_Data)
+    input_Data[np.where(neg_Infs)] = -max_Range
+    pos_Infs = np.isposinf(input_Data)
+    input_Data[np.where(pos_Infs)] = max_Range
     
-    return data
+    return input_Data
 
 def BMX_Magnitude(V1,V2,V3):
     
@@ -71,10 +70,13 @@ def BMX_Magnetic_Field_ZT_PM(filename, starting_Index, mean_Cutoff, max_Range, e
     ################################################################################################
     """ My standard is {Z, R, Theta} """
     ################################################################################################
-    Bt_1dot = BMX_Clear_Infs(data[1], mean_Cutoff, max_Range)
-    Bz_1dot = BMX_Clear_Infs(data[2], mean_Cutoff, max_Range)
-    Bt_2dot = BMX_Clear_Infs(data[3], mean_Cutoff, max_Range)
-    Bz_2dot = BMX_Clear_Infs(data[4], mean_Cutoff, max_Range)
+    for i in range(1,5):
+     data[i] -= np.mean(data[i][0:mean_Cutoff])
+    
+    Bt_1dot = BMX_Clear_Infs(data[1], max_Range)
+    Bz_1dot = BMX_Clear_Infs(data[2], max_Range)
+    Bt_2dot = BMX_Clear_Infs(data[3], max_Range)
+    Bz_2dot = BMX_Clear_Infs(data[4], max_Range)
     ################################################################################################
     ''' Performing the integration using the trap-rule (Guass units)'''
     ################################################################################################
@@ -131,10 +133,13 @@ def BMX_Bdot_ZT_PM(filename, starting_Index, mean_Cutoff, max_Range, ending_Inde
     ################################################################################################
     """ My standard is {Z, R, Theta} """
     ################################################################################################
-    Bt_1dot = BMX_Clear_Infs(data[1], mean_Cutoff, max_Range)
-    Bz_1dot = BMX_Clear_Infs(data[2], mean_Cutoff, max_Range)
-    Bt_2dot = BMX_Clear_Infs(data[3], mean_Cutoff, max_Range)
-    Bz_2dot = BMX_Clear_Infs(data[4], mean_Cutoff, max_Range)
+    for i in range(1,5):
+     data[i] -= np.mean(data[i][0:mean_Cutoff])
+     
+    Bt_1dot = BMX_Clear_Infs(data[1], max_Range)
+    Bz_1dot = BMX_Clear_Infs(data[2], max_Range)
+    Bt_2dot = BMX_Clear_Infs(data[3], max_Range)
+    Bz_2dot = BMX_Clear_Infs(data[4], max_Range)
     ################################################################################################
     ''' Performing the integration using the trap-rule (Guass units)'''
     ################################################################################################
@@ -182,9 +187,12 @@ def BMX_Magnetic_Fieldf(filename, starting_Index, mean_Cutoff, max_Range, sendin
     ################################################################################################
     """ My standard is {Z, R, Theta} """
     ################################################################################################
-    Bzdot = BMX_Clear_Infs(data[1], mean_Cutoff, max_Range)
-    Brdot = BMX_Clear_Infs(data[2], mean_Cutoff, max_Range)
-    Btdot = BMX_Clear_Infs(data[3], mean_Cutoff, max_Range)
+    for i in range(1,4):
+     data[i] -= np.mean(data[i][0:mean_Cutoff])
+     
+    Bzdot = BMX_Clear_Infs(data[1], max_Range)
+    Brdot = BMX_Clear_Infs(data[2], max_Range)
+    Btdot = BMX_Clear_Infs(data[3], max_Range)
     ################################################################################################
     ''' Performing the integration using the trap-rule (Guass units): Start Index 0.'''
     ################################################################################################
@@ -227,9 +235,12 @@ def BMX_Magnetic_Fieldd(time, Bzdot, Brdot, Btdot, mean_Cutoff, max_Range,
     timeB_Sec = time_Sec[1:]
     
     # My standard is {Z, R, Theta}
-    Bzdot = BMX_Clear_Infs(Bzdot, mean_Cutoff, max_Range)
-    Brdot = BMX_Clear_Infs(Brdot, mean_Cutoff, max_Range)
-    Btdot = BMX_Clear_Infs(Btdot, mean_Cutoff, max_Range)
+    for i in range(1,5):
+     data[i] -= np.mean(data[i][0:mean_Cutoff])
+    
+    Bzdot = BMX_Clear_Infs(Bzdot, max_Range)
+    Brdot = BMX_Clear_Infs(Brdot, max_Range)
+    Btdot = BMX_Clear_Infs(Btdot, max_Range)
     
     # Performing the integration using the trap-rule (Guass units)
     Bz = sp.cumtrapz(Bzdot/(tzprobe_Area),time_Sec)*1e4
