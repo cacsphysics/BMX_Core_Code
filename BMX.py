@@ -56,6 +56,12 @@ def BMX_Magnetic_Field_ZT_PM(filename, starting_Index, mean_Cutoff, max_Range, e
     else:
         pass
 
+    ################################################################################################
+    """ Explicitely mean substracting data """
+    ################################################################################################
+    for i in range(1,5):
+        data[i] -= np.mean(data[i][0:mean_Cutoff])
+     
     data = data[:,starting_Index:ending_Index]
     ################################################################################################
     """ Setting the area variables"""
@@ -70,9 +76,6 @@ def BMX_Magnetic_Field_ZT_PM(filename, starting_Index, mean_Cutoff, max_Range, e
     ################################################################################################
     """ My standard is {Z, R, Theta} """
     ################################################################################################
-    for i in range(1,5):
-     data[i] -= np.mean(data[i][0:mean_Cutoff])
-    
     Bt_1dot = BMX_Clear_Infs(data[1], max_Range)
     Bz_1dot = BMX_Clear_Infs(data[2], max_Range)
     Bt_2dot = BMX_Clear_Infs(data[3], max_Range)
@@ -121,7 +124,13 @@ def BMX_Bdot_ZT_PM(filename, starting_Index, mean_Cutoff, max_Range, ending_Inde
         ending_Index = data[0,:].size
     else:
         pass
-
+    
+    ################################################################################################
+    """ Explicitly mean substracting data """
+    ################################################################################################
+    for i in range(1,5):
+     data[i] -= np.mean(data[i][0:mean_Cutoff])
+    
     data = data[:,starting_Index:ending_Index]
 
     ################################################################################################
@@ -133,9 +142,7 @@ def BMX_Bdot_ZT_PM(filename, starting_Index, mean_Cutoff, max_Range, ending_Inde
     ################################################################################################
     """ My standard is {Z, R, Theta} """
     ################################################################################################
-    for i in range(1,5):
-     data[i] -= np.mean(data[i][0:mean_Cutoff])
-     
+    
     Bt_1dot = BMX_Clear_Infs(data[1], max_Range)
     Bz_1dot = BMX_Clear_Infs(data[2], max_Range)
     Bt_2dot = BMX_Clear_Infs(data[3], max_Range)
@@ -171,10 +178,14 @@ def BMX_Magnetic_Fieldf(filename, starting_Index, mean_Cutoff, max_Range, sendin
         ending_Index = data[0,:].size
     else:
         pass
-
+    ################################################################################################
+    """ Explicitely mean subtracting data """
+    ################################################################################################
+    for i in range(1,4):
+        data[i] -= np.mean(data[i][0:mean_Cutoff])
     data = data[:,starting_Index:ending_Index]
     ################################################################################################
-    """ Setting the area variables"""
+    """ Setting the area variables """
     ################################################################################################
     rprobe_Area = np.pi*(rprobe_Dia/2)**2
     tzprobe_Area = ztprobe_Dia*hole_Sep
@@ -187,9 +198,6 @@ def BMX_Magnetic_Fieldf(filename, starting_Index, mean_Cutoff, max_Range, sendin
     ################################################################################################
     """ My standard is {Z, R, Theta} """
     ################################################################################################
-    for i in range(1,4):
-     data[i] -= np.mean(data[i][0:mean_Cutoff])
-     
     Bzdot = BMX_Clear_Infs(data[1], max_Range)
     Brdot = BMX_Clear_Infs(data[2], max_Range)
     Btdot = BMX_Clear_Infs(data[3], max_Range)
@@ -235,8 +243,9 @@ def BMX_Magnetic_Fieldd(time, Bzdot, Brdot, Btdot, mean_Cutoff, max_Range,
     timeB_Sec = time_Sec[1:]
     
     # My standard is {Z, R, Theta}
-    for i in range(1,5):
-     data[i] -= np.mean(data[i][0:mean_Cutoff])
+    Bzdot -= np.mean(Bzdot[0:mean_Cutoff])
+    Brdot -= np.mean(Brdot[0:mean_Cutoff])
+    Btdot -= np.mean(Btdot[0:mean_Cutoff])
     
     Bzdot = BMX_Clear_Infs(Bzdot, max_Range)
     Brdot = BMX_Clear_Infs(Brdot, max_Range)
