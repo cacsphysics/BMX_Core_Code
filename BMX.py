@@ -167,7 +167,7 @@ def BMX_Bdot_ZT_PM(filename, starting_Index, mean_Cutoff, max_Range, ending_Inde
     
     return  time_Sec, Bz_1dot, Bt_1dot, Bz_2dot, Bt_2dot
 
-def BMX_Magnetic_Fieldf(filename, starting_Index, mean_Cutoff, max_Range, sending_Index = -1,
+def BMX_Magnetic_Fieldf(filename, starting_Index, mean_Cutoff, max_Range, ending_Index = -1,
                        rprobe_Dia = 0.003175, ztprobe_Dia = 0.00158755,
                        hole_Sep = 0.001016):
     """
