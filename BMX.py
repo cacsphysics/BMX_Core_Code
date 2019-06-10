@@ -41,7 +41,7 @@ def BMX_Magnitude(V1,V2,V3):
 def BMX_Correlation():
     return None
 
-def BMX_Magnetic_Field_ZT_PM(filename, starting_Index, mean_Cutoff, max_Range, ending_Index = -1,
+def BMX_Magnetic_Field_ZT_PM(filename, starting_Index = 0, mean_Cutoff, max_Range, ending_Index = -1,
                         ztprobe_Dia = 0.00158755, hole_Sep = 0.001016):
     ################################################################################################
     """ The reason I am creating yet another load function has to do with a new mode of operation 
@@ -111,7 +111,7 @@ def BMX_Magnetic_Field_ZT_PM(filename, starting_Index, mean_Cutoff, max_Range, e
     
     return  timeB_Sec, Bz_1, Bt_1, Bz_2, Bt_2
     
-def BMX_Bdot_ZT_PM(filename, starting_Index, mean_Cutoff, max_Range, ending_Index = -1):
+def BMX_Bdot_ZT_PM(filename, starting_Index = 0, mean_Cutoff, max_Range, ending_Index = -1):
     ################################################################################################
     """ The reason I am creating yet another load function has to do with a new mode of operation 
         pair mode (PM). Each picoscope, except the last one contains pairs of data corresponding 
@@ -167,7 +167,7 @@ def BMX_Bdot_ZT_PM(filename, starting_Index, mean_Cutoff, max_Range, ending_Inde
     
     return  time_Sec, Bz_1dot, Bt_1dot, Bz_2dot, Bt_2dot
 
-def BMX_Magnetic_Fieldf(filename, starting_Index, mean_Cutoff, max_Range, ending_Index = -1,
+def BMX_Magnetic_Fieldf(filename, starting_Index = 0, mean_Cutoff, max_Range, ending_Index = -1,
                        rprobe_Dia = 0.003175, ztprobe_Dia = 0.00158755,
                        hole_Sep = 0.001016):
     """
