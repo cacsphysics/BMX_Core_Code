@@ -41,7 +41,346 @@ def BMX_Magnitude(V1,V2,V3):
 def BMX_Correlation():
     return None
 
-def BMX_Magnetic_Field_ZT_PM(filename, starting_Index = 0, mean_Cutoff, max_Range, ending_Index = -1,
+def BMX_Magnetic_BDOT(filename, data_Structure, output_Type = 'bdot', starting_Index = 0, mean_Cutoff = 0, max_Range = 1, ending_Index = -1):
+    ####################################################################################################################
+    """ This will be a general loading script. For now it will only contain barebones. """
+    ####################################################################################################################
+    def data_Struct(data, data_Structure):
+        
+        try:
+            isinstance(data_Structure, str)
+        except NameError:
+            print("Provide a string for data_Structure variable.")
+        
+        ####################################################################################################################
+        """ The two-component probes. """
+        ####################################################################################################################
+        if data_Structure.lower == 'ztzt':
+            """ I want data in form: z, r, t, time """
+            
+            data_List1 = [data[1], data[2], data[0]]
+            data_List2 = [data[3], data[4], data[0]]
+            name_List1 = [bDot_Array_Name(data_Structure[0]), bDot_Array_Name(data_Structure[1]), 'Time']
+            name_List2 = [bDot_Array_Name(data_Structure[2]), bDot_Array_Name(data_Structure[3]), 'Time']
+            
+            my_Dict1 = dict(zip(name_List1, data_List1))
+            my_Dict2 = dict(zip(name_List2, data_List2))
+        
+        elif data_Structure.lower == 'tztz':
+            """ I want data in form: z, r, t, time """
+            
+            data_List1 = [data[2], data[1], data[0]]
+            data_List2 = [data[4], data[3], data[0]]
+            name_List1 = [bDot_Array_Name(data_Structure[1]), bDot_Array_Name(data_Structure[0]), 'Time']
+            name_List2 = [bDot_Array_Name(data_Structure[3]), bDot_Array_Name(data_Structure[2]), 'Time']
+            
+            my_Dict1 = dict(zip(name_List1, data_List1))
+            my_Dict2 = dict(zip(name_List2, data_List2))
+        
+        elif data_Structure.lower == 'ztcv':
+            """ I want data in form: z, r, t, time """
+            
+            data_List1 = [data[1], data[2], data[0]]
+            data_List2 = [data[3], data[4], data[0]]
+            name_List1 = [bDot_Array_Name(data_Structure[0]), bDot_Array_Name(data_Structure[1]), 'Time']
+            name_List2 = [bDot_Array_Name(data_Structure[2]), bDot_Array_Name(data_Structure[3]), 'Time']
+            
+            my_Dict1 = dict(zip(name_List1, data_List1))
+            my_Dict2 = dict(zip(name_List2, data_List2))
+        
+        elif data_Structure.lower == 'zrzr':
+            """ I want data in form: z, r, t, time """
+            
+            data_List1 = [data[1], data[2], data[0]]
+            data_List2 = [data[3], data[4], data[0]]
+            name_List1 = [bDot_Array_Name(data_Structure[0]), bDot_Array_Name(data_Structure[1]), 'Time']
+            name_List2 = [bDot_Array_Name(data_Structure[2]), bDot_Array_Name(data_Structure[3]), 'Time']
+            
+            my_Dict1 = dict(zip(name_List1, data_List1))
+            my_Dict2 = dict(zip(name_List2, data_List2))
+        
+        elif data_Structure.lower == 'rzrz':
+            """ I want data in form: z, r, t, time """
+            
+            data_List1 = [data[2], data[1], data[0]]
+            data_List2 = [data[4], data[3], data[0]]
+            name_List1 = [bDot_Array_Name(data_Structure[1]), bDot_Array_Name(data_Structure[0]), 'Time']
+            name_List2 = [bDot_Array_Name(data_Structure[3]), bDot_Array_Name(data_Structure[2]), 'Time']
+            
+            my_Dict1 = dict(zip(name_List1, data_List1))
+            my_Dict2 = dict(zip(name_List2, data_List2))
+        
+        elif data_Structure.lower == 'zrcv':
+            """ I want data in form: z, r, t, time """
+            
+            data_List1 = [data[1], data[2], data[0]]
+            data_List2 = [data[3], data[4], data[0]]
+            name_List1 = [bDot_Array_Name(data_Structure[0]), bDot_Array_Name(data_Structure[1]), 'Time']
+            name_List2 = [bDot_Array_Name(data_Structure[2]), bDot_Array_Name(data_Structure[3]), 'Time']
+            
+            my_Dict1 = dict(zip(name_List1, data_List1))
+            my_Dict2 = dict(zip(name_List2, data_List2))
+        
+        ####################################################################################################################
+        """ The three-component probes """
+        ####################################################################################################################
+            
+        if data_Structure.lower == 'zrtc':
+            """ I want data in form: z, r, t, time """
+            
+            data_List1 = [data[1], data[2], data[3], data[0]]
+            data_List2 = [data[4], data[0]]
+            name_List1 = [bDot_Array_Name(data_Structure[0]), bDot_Array_Name(data_Structure[1]), bDot_Array_Name(data_Structure[2]), 'Time']
+            name_List2 = [bDot_Array_Name(data_Structure[3]), 'Time']
+            
+            my_Dict1 = dict(zip(name_List1, data_List1))
+            my_Dict2 = dict(zip(name_List2, data_List2))
+            
+        elif data_Structure.lower == 'ztrc':
+            """ I want data in form: z, r, t, time """
+            
+            data_List1 = [data[1], data[3], data[2], data[0]]
+            data_List2 = [data[4], data[0]]
+            name_List1 = [bDot_Array_Name(data_Structure[0]), bDot_Array_Name(data_Structure[2]), bDot_Array_Name(data_Structure[1]), 'Time']
+            name_List2 = [bDot_Array_Name(data_Structure[3]), 'Time']
+            
+            my_Dict1 = dict(zip(name_List1, data_List1))
+            my_Dict2 = dict(zip(name_List2, data_List2))
+
+        elif data_Structure.lower == 'rztc':
+            """ I want data in form: z, r, t, time """
+            
+            data_List1 = [data[2], data[1], data[3], data[0]]
+            data_List2 = [data[4], data[0]]
+            name_List1 = [bDot_Array_Name(data_Structure[1]), bDot_Array_Name(data_Structure[0]), bDot_Array_Name(data_Structure[2]), 'Time']
+            name_List2 = [bDot_Array_Name(data_Structure[3]), 'Time']
+            
+            my_Dict1 = dict(zip(name_List1, data_List1))
+            my_Dict2 = dict(zip(name_List2, data_List2))
+            
+        elif data_Structure.lower == 'trzc':
+            """ I want data in form: z, r, t, time """
+            
+            data_List1 = [data[3], data[2], data[1], data[0]]
+            data_List2 = [data[4], data[0]]
+            name_List1 = [bDot_Array_Name(data_Structure[2]), bDot_Array_Name(data_Structure[1]), bDot_Array_Name(data_Structure[0]), 'Time']
+            name_List2 = [bDot_Array_Name(data_Structure[3]), 'Time']
+            
+            my_Dict1 = dict(zip(name_List1, data_List1))
+            my_Dict2 = dict(zip(name_List2, data_List2))
+            
+        elif data_Structure.lower == 'tzrc':
+            """ I want data in form: z, r, t, time """
+            
+            data_List1 = [data[2], data[3], data[1], data[0]]
+            data_List2 = [data[4], data[0]]
+            name_List1 = [bDot_Array_Name(data_Structure[1]), bDot_Array_Name(data_Structure[2]), bDot_Array_Name(data_Structure[0]), 'Time']
+            name_List2 = [bDot_Array_Name(data_Structure[3]), 'Time']
+            
+            my_Dict1 = dict(zip(name_List1, data_List1))
+            my_Dict2 = dict(zip(name_List2, data_List2))
+            
+        elif data_Structure.lower == 'rtzc':
+            """ I want data in form: z, r, t, time """
+            
+            data_List1 = [data[3], data[1], data[2], data[0]]
+            data_List2 = [data[4], data[0]]
+            name_List1 = [bDot_Array_Name(data_Structure[2]), bDot_Array_Name(data_Structure[0]), bDot_Array_Name(data_Structure[1]), 'Time']
+            name_List2 = [bDot_Array_Name(data_Structure[3]), 'Time']
+            
+            my_Dict1 = dict(zip(name_List1, data_List1))
+            my_Dict2 = dict(zip(name_List2, data_List2))
+            
+        elif data_Structure.lower == 'zrth':
+            """ I want data in form: z, r, t, time """
+            
+            data_List1 = [data[1], data[2], data[3], data[0]]
+            data_List2 = [data[4], data[0]]
+            name_List1 = [bDot_Array_Name(data_Structure[0]), bDot_Array_Name(data_Structure[1]), bDot_Array_Name(data_Structure[2]), 'Time']
+            name_List2 = [bDot_Array_Name(data_Structure[3]), 'Time']
+            
+            my_Dict1 = dict(zip(name_List1, data_List1))
+            my_Dict2 = dict(zip(name_List2, data_List2))
+            
+        elif data_Structure.lower == 'ztrh':
+            """ I want data in form: z, r, t, time """
+            
+            data_List1 = [data[1], data[3], data[2], data[0]]
+            data_List2 = [data[4], data[0]]
+            name_List1 = [bDot_Array_Name(data_Structure[0]), bDot_Array_Name(data_Structure[2]), bDot_Array_Name(data_Structure[1]), 'Time']
+            name_List2 = [bDot_Array_Name(data_Structure[3]), 'Time']
+            
+            my_Dict1 = dict(zip(name_List1, data_List1))
+            my_Dict2 = dict(zip(name_List2, data_List2))
+            
+        elif data_Structure.lower == 'rzth':
+            """ I want data in form: z, r, t, time """
+            
+            data_List1 = [data[2], data[1], data[3], data[0]]
+            data_List2 = [data[4], data[0]]
+            name_List1 = [bDot_Array_Name(data_Structure[1]), bDot_Array_Name(data_Structure[0]), bDot_Array_Name(data_Structure[2]), 'Time']
+            name_List2 = [bDot_Array_Name(data_Structure[3]), 'Time']
+            
+            my_Dict1 = dict(zip(name_List1, data_List1))
+            my_Dict2 = dict(zip(name_List2, data_List2))
+            
+        elif data_Structure.lower == 'trzh':
+            """ I want data in form: z, r, t, time """
+            
+            data_List1 = [data[3], data[2], data[1], data[0]]
+            data_List2 = [data[4], data[0]]
+            name_List1 = [bDot_Array_Name(data_Structure[2]), bDot_Array_Name(data_Structure[1]), bDot_Array_Name(data_Structure[0]), 'Time']
+            name_List2 = [bDot_Array_Name(data_Structure[3]), 'Time']
+            
+            my_Dict1 = dict(zip(name_List1, data_List1))
+            my_Dict2 = dict(zip(name_List2, data_List2))
+        
+        elif data_Structure.lower == 'tzrh':
+            """ I want data in form: z, r, t, time """
+            
+            data_List1 = [data[2], data[3], data[1], data[0]]
+            data_List2 = [data[4], data[0]]
+            name_List1 = [bDot_Array_Name(data_Structure[1]), bDot_Array_Name(data_Structure[2]), bDot_Array_Name(data_Structure[0]), 'Time']
+            name_List2 = [bDot_Array_Name(data_Structure[3]), 'Time']
+            
+            my_Dict1 = dict(zip(name_List1, data_List1))
+            my_Dict2 = dict(zip(name_List2, data_List2))
+        
+        elif data_Structure.lower == 'rtzh':
+            """ I want data in form: z, r, t, time """
+            
+            data_List1 = [data[3], data[1], data[2], data[0]]
+            data_List2 = [data[4], data[0]]
+            name_List1 = [bDot_Array_Name(data_Structure[2]), bDot_Array_Name(data_Structure[0]), bDot_Array_Name(data_Structure[1]), 'Time']
+            name_List2 = [bDot_Array_Name(data_Structure[3]), 'Time']
+            
+            my_Dict1 = dict(zip(name_List1, data_List1))
+            my_Dict2 = dict(zip(name_List2, data_List2))
+            
+        elif data_Structure.lower == 'zrtv':
+            """ I want data in form: z, r, t, time """
+            
+            data_List1 = [data[1], data[2], data[3], data[0]]
+            data_List2 = [data[4], data[0]]
+            name_List1 = [bDot_Array_Name(data_Structure[0]), bDot_Array_Name(data_Structure[1]), bDot_Array_Name(data_Structure[2]), 'Time']
+            name_List2 = [bDot_Array_Name(data_Structure[3]), 'Time']
+            
+            my_Dict1 = dict(zip(name_List1, data_List1))
+            my_Dict2 = dict(zip(name_List2, data_List2))
+            
+        elif data_Structure.lower == 'ztrv':
+            """ I want data in form: z, r, t, time """
+            
+            data_List1 = [data[1], data[3], data[2], data[0]]
+            data_List2 = [data[4], data[0]]
+            name_List1 = [bDot_Array_Name(data_Structure[0]), bDot_Array_Name(data_Structure[2]), bDot_Array_Name(data_Structure[1]), 'Time']
+            name_List2 = [bDot_Array_Name(data_Structure[3]), 'Time']
+            
+            my_Dict1 = dict(zip(name_List1, data_List1))
+            my_Dict2 = dict(zip(name_List2, data_List2))
+            
+        elif data_Structure.lower == 'rztv':
+            """ I want data in form: z, r, t, time """
+            
+            data_List1 = [data[2], data[1], data[3], data[0]]
+            data_List2 = [data[4], data[0]]
+            name_List1 = [bDot_Array_Name(data_Structure[1]), bDot_Array_Name(data_Structure[0]), bDot_Array_Name(data_Structure[2]), 'Time']
+            name_List2 = [bDot_Array_Name(data_Structure[3]), 'Time']
+            
+            my_Dict1 = dict(zip(name_List1, data_List1))
+            my_Dict2 = dict(zip(name_List2, data_List2))
+            
+        elif data_Structure.lower == 'trzv':
+            """ I want data in form: z, r, t, time """
+            
+            data_List1 = [data[3], data[2], data[1], data[0]]
+            data_List2 = [data[4], data[0]]
+            name_List1 = [bDot_Array_Name(data_Structure[2]), bDot_Array_Name(data_Structure[1]), bDot_Array_Name(data_Structure[0]), 'Time']
+            name_List2 = [bDot_Array_Name(data_Structure[3]), 'Time']
+            
+            my_Dict1 = dict(zip(name_List1, data_List1))
+            my_Dict2 = dict(zip(name_List2, data_List2))
+        
+        elif data_Structure.lower == 'tzrv':
+            """ I want data in form: z, r, t, time """          
+            data_List1 = [data[2], data[3], data[1], data[0]]
+            data_List2 = [data[4], data[0]]
+            name_List1 = [bDot_Array_Name(data_Structure[1]), bDot_Array_Name(data_Structure[2]), bDot_Array_Name(data_Structure[0]), 'Time']
+            name_List2 = [bDot_Array_Name(data_Structure[3]), 'Time']
+            
+            my_Dict1 = dict(zip(name_List1, data_List1))
+            my_Dict2 = dict(zip(name_List2, data_List2))
+        
+        elif data_Structure.lower == 'rtzv':
+            """ I want data in form: z, r, t, time """
+            
+            data_List1 = [data[3], data[1], data[2], data[0]]
+            data_List2 = [data[4], data[0]]
+            name_List1 = [bDot_Array_Name(data_Structure[2]), bDot_Array_Name(data_Structure[0]), bDot_Array_Name(data_Structure[1]), 'Time']
+            name_List2 = [bDot_Array_Name(data_Structure[3]), 'Time']
+            
+            my_Dict1 = dict(zip(name_List1, data_List1))
+            my_Dict2 = dict(zip(name_List2, data_List2))
+        
+        two_Component = "ztzt, tztz, zrzr, rzrz, ztcv, zrcv"
+        three_Component = ("zrtc, rztc, ztrc, rtzc, tzrc, trzc, "
+                            + "zrth, rzth, ztrh, rtzh, tzrh, trzh, " 
+                            + "zrtv, rztv, ztrv, rtzv, tzrv, trzv")
+        try:
+            my_Dict1
+        except NameError:
+            print("The provided data structure, %s,  is not included in the list: Two-Component %s; Three Component %s") % (data_Structure, two_Component, three_Component)
+            print("Contact Carlos if you believe it needs to be added to the list.")
+        return my_Dict1, my_Dict2
+    def bDot_Array_Name(indicator):
+        
+        try:
+            isinstance(indicator, str)
+        except NameError:
+            print("Provide a string for data_Structure variable.")
+        
+        if indicator.lower == 'z':
+            output = 'Bz_Dot'
+        elif indicator.lower == 'r':
+            output = 'Br_Dot'
+        elif indicator.lower == 't':
+            output = 'Bt_Dot'
+        elif indicator.lower == 'c':
+            output = 'Current'
+        elif indicator.lower == 'v':
+            output = 'Voltage'
+        elif indicator.lower == 'h':
+            output = 'H-Alpha'
+        return output
+
+    data = BMX_Pico_Read(filename)
+    my_Data1, my_Data2 = data_Struct(data, data_Structure = data_Structure)
+    """
+    my_Dict_1 = {'Time_B': timeB_Sec, 'Bz': Bz, 'Bt': Bt}
+    """
+    if output_Type.lower == 'bdot':
+        if len(my_Data1) == 3:
+            name_List = [bDot_Array_Name(data_Structure[0]), bDot_Array_Name(data_Structure[1]),
+                          bDot_Array_Name(data_Structure[3]), bDot_Array_Name(data_Structure[4])]
+            data1 = my_Data1[name_List[0]]
+            data2 = my_Data1[name_List[1]]
+            time = my_Data1['Time']
+            data3 = my_Data2[name_List[2]]
+            data4 = my_Data2[name_List[3]]
+            print("The data is of the form: " + name_List[0:1] + ' Time ' + name_List[2:3])
+            
+        else:
+            name_List = [bDot_Array_Name(data_Structure[0]), bDot_Array_Name(data_Structure[1]),
+                          bDot_Array_Name(data_Structure[3]), bDot_Array_Name(data_Structure[4])]
+            data1 = my_Data1[name_List[0]]
+            data2 = my_Data1[name_List[1]]
+            data3 = my_Data2[name_List[2]]
+            time = my_Data1['Time']
+            data4 = my_Data2[name_List[3]]
+            print("The data is of the form: " + name_List[0:1] + ' Time ' + name_List[2:3])
+    return data1, data2, time, data3, data4
+
+def BMX_Magnetic_Field_ZT_PM(filename, starting_Index = 0, mean_Cutoff = 0 , max_Range = 1, ending_Index = -1,
                         ztprobe_Dia = 0.00158755, hole_Sep = 0.001016):
     ################################################################################################
     """ The reason I am creating yet another load function has to do with a new mode of operation 
@@ -64,11 +403,11 @@ def BMX_Magnetic_Field_ZT_PM(filename, starting_Index = 0, mean_Cutoff, max_Rang
      
     data = data[:,starting_Index:ending_Index]
     ################################################################################################
-    """ Setting the area variables"""
+    """ Setting the area variables """
     ################################################################################################
     tzprobe_Area = ztprobe_Dia*hole_Sep
     ################################################################################################
-    """ Setting the time variables"""
+    """ Setting the time variables """
     ################################################################################################
     time_Microsec = data[0,:]
     time_Sec = time_Microsec*1e-6
@@ -111,7 +450,7 @@ def BMX_Magnetic_Field_ZT_PM(filename, starting_Index = 0, mean_Cutoff, max_Rang
     
     return  timeB_Sec, Bz_1, Bt_1, Bz_2, Bt_2
     
-def BMX_Bdot_ZT_PM(filename, starting_Index = 0, mean_Cutoff, max_Range, ending_Index = -1):
+def BMX_Bdot_ZT_PM(filename, starting_Index = 0, mean_Cutoff = 0, max_Range = 1, ending_Index = -1):
     ################################################################################################
     """ The reason I am creating yet another load function has to do with a new mode of operation 
         pair mode (PM). Each picoscope, except the last one contains pairs of data corresponding 
@@ -167,7 +506,7 @@ def BMX_Bdot_ZT_PM(filename, starting_Index = 0, mean_Cutoff, max_Range, ending_
     
     return  time_Sec, Bz_1dot, Bt_1dot, Bz_2dot, Bt_2dot
 
-def BMX_Magnetic_Fieldf(filename, starting_Index = 0, mean_Cutoff, max_Range, ending_Index = -1,
+def BMX_Magnetic_Fieldf(filename, starting_Index = 0, mean_Cutoff = 0, max_Range = 1, ending_Index = -1,
                        rprobe_Dia = 0.003175, ztprobe_Dia = 0.00158755,
                        hole_Sep = 0.001016):
     """
@@ -376,7 +715,6 @@ def which_Pico(pos):
         
         return pico
     
-
 def zero_Crossings(ydata, xdata):
     ##############################################################################################
     """ This functions name is self explainatory.
