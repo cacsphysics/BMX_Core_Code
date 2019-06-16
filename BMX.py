@@ -62,7 +62,7 @@ def bDot_Array_Name(indicator):
     
     return output
 
-def BMX_Magnetic_BDOT(filename, data_Structure, output_Type = 'bdot', starting_Index = 0, mean_Cutoff = 0, max_Range = 1, ending_Index = -1):
+def BMX_Magnetic_BDOT(filename, data_Structure, output_Type = 'bdot', starting_Time = 0, mean_Subtraction = True, cutoff_Region = False, max_Range = 1, ending_Time = -1):
     ####################################################################################################################
     """ This will be a general loading script. For now it will only contain barebones. """
     ####################################################################################################################
@@ -357,9 +357,10 @@ def BMX_Magnetic_BDOT(filename, data_Structure, output_Type = 'bdot', starting_I
             print("The provided data structure, %s,  is not included in the list: Two-Component %s; Three Component %s") %(data_Structure, two_Component, three_Component)
             print("Contact Carlos if you believe it needs to be added to the list.")
         return my_Dict1, my_Dict2
-
+    
     data = BMX_Pico_Read(filename)
     my_Data1, my_Data2 = data_Struct()
+    
     """
     my_Dict_1 = {'Time_B': timeB_Sec, 'Bz': Bz, 'Bt': Bt}
     """
@@ -385,6 +386,45 @@ def BMX_Magnetic_BDOT(filename, data_Structure, output_Type = 'bdot', starting_I
             data4 = my_Data2['%s'%name_List[3]]
             seperator = ', '
             print("The output is of the form: " + seperator.join(name_List[0:2]) + ', Time, ' + seperator.join(name_List[1:3]))
+        if mean_Subtraction:
+            ending_Index = finding_Index_Time(time, 0)
+            
+            data1 -= np.mean(data1[:ending_Index])
+            data2 -= np.mean(data2[:ending_Index])
+            data3 -= np.mean(data3[:ending_Index])
+            data4 -= np.mean(data4[:ending_Index])
+        ####################################################################################################################
+        """ This section of the code is focused on the time window. """
+        ####################################################################################################################
+        if cutoff_Region:
+            ending_Index = finding_Index_Time(time, 0)
+            
+            time = time[:ending_Index]
+            data1 = data1[:ending_Index]
+            data2 = data2[:ending_Index]
+            data3 = data3[:ending_Index]
+            data4 = data4[:ending_Index]
+        elif (starting_Time != 0 and ending_Time != -1):
+            starting_Index = finding_Index_Time(time, starting_Time)
+            ending_Index = finding_Index_Time(time, ending_Time)
+            
+            time = time[starting_Index:ending_Index]
+            data1 = data1[starting_Index:ending_Index]
+            data2 = data2[starting_Index:ending_Index]
+            data3 = data3[starting_Index:ending_Index]
+            data4 = data4[starting_Index:ending_Index]
+        elif (ending_Time == -1):
+            starting_Index = finding_Index_Time(time, starting_Time)
+            
+            time = time[starting_Index:]
+            data1 = data1[starting_Index:]
+            data2 = data2[starting_Index:]
+            data3 = data3[starting_Index:]
+            data4 = data4[starting_Index:]
+        
+        else:
+            pass
+        
     return data1, data2, time, data3, data4
 
 def BMX_Magnetic_Field_ZT_PM(filename, starting_Index = 0, mean_Cutoff = 0 , max_Range = 1, ending_Index = -1,
@@ -742,3 +782,23 @@ def zero_Crossings(ydata, xdata):
 
     return zero_Crossing, index_Crossing
 
+def finding_Index_Time(time_Data, time_Interest):
+    ##############################################################################################
+    """ This function returns the index corresponding to a given time. """
+    ##############################################################################################
+    """data_Path = '04232019/04232019pico1/'
+    filename = data_Path + '20190423-(1).npy'
+    print('Loading ' + filename)
+    data_Dict = np.load(filename)"""
+    """
+    my_Dict = {'Time_B': timeB_Sec, 'Bz': Bz, 'Bt': Bt, 
+                            'Bz_prime': Bz_prime, 'Bt_prime': Bt_prime}
+    """
+    time = time_Data
+    output_Time = 0
+    for i in range(0,time.size - 1):
+        if (time[i]*1e6 <= time_Interest):
+            output_Time = i
+
+    #print('Outputing the index of interest')
+    return output_Time
