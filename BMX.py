@@ -413,7 +413,10 @@ def BMX_Magnetic_BDOT(filename, data_Structure, output_Type = 'bdot', starting_T
             data2 = data2[starting_Index:ending_Index]
             data3 = data3[starting_Index:ending_Index]
             data4 = data4[starting_Index:ending_Index]
-        elif (ending_Time == -1):
+        else:
+            pass
+        
+        """elif (ending_Time == -1):
             starting_Index = finding_Index_Time(time, starting_Time)
             
             time = time[starting_Index:]
@@ -421,9 +424,7 @@ def BMX_Magnetic_BDOT(filename, data_Structure, output_Type = 'bdot', starting_T
             data2 = data2[starting_Index:]
             data3 = data3[starting_Index:]
             data4 = data4[starting_Index:]
-        
-        else:
-            pass
+        """
         
     return data1, data2, time, data3, data4
 
