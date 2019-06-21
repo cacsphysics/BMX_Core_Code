@@ -14,6 +14,7 @@ def infinity_Change(filename, max_Value):
     with fileinput.FileInput(filename, inplace = True, backup = '.bak') as fi:
         for line in fi:
             print(line.replace(u"\u221E",str(max_Value)),end='')
+            print(line.replace(u"\u221e",str(max_Value)),end='')
     
     return None
 
