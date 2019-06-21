@@ -360,7 +360,6 @@ def BMX_Magnetic_BDOT(filename, data_Structure, output_Type = 'bdot', starting_T
     
     data = BMX_Pico_Read(filename)
     my_Data1, my_Data2 = data_Struct()
-    
     """
     my_Dict_1 = {'Time_B': timeB_Sec, 'Bz': Bz, 'Bt': Bt}
     """
@@ -374,7 +373,7 @@ def BMX_Magnetic_BDOT(filename, data_Structure, output_Type = 'bdot', starting_T
             data3 = my_Data2['%s'%name_List[2]]
             data4 = my_Data2['%s'%name_List[3]]
             seperator = ', '
-            print("The output is of the form: " + seperator.join(name_List[0:2]) + ', Time, ' + seperator.join(name_List[1:3]))
+            print("The output is of the form: " + seperator.join(name_List[0:2]) + ', Time, ' + seperator.join(name_List[2:4]))
             
         else:
             name_List = [bDot_Array_Name(data_Structure[0]), bDot_Array_Name(data_Structure[1]),
@@ -385,7 +384,7 @@ def BMX_Magnetic_BDOT(filename, data_Structure, output_Type = 'bdot', starting_T
             time = my_Data1['Time']
             data4 = my_Data2['%s'%name_List[3]]
             seperator = ', '
-            print("The output is of the form: " + seperator.join(name_List[0:2]) + ', Time, ' + seperator.join(name_List[1:3]))
+            print("The output is of the form: " + seperator.join(name_List[0:2]) + ', Time, ' + seperator.join(name_List[2:4]))
         if mean_Subtraction:
             ending_Index = finding_Index_Time(time, 0)
             
@@ -427,9 +426,9 @@ def BMX_Magnetic_BDOT(filename, data_Structure, output_Type = 'bdot', starting_T
         """
     if apply_Filter:
         
-        fs = time[1] - time[0]
+        fs = 125e6
         N = 4
-        Wn = filter_Freq/(fs/2.0)
+        Wn = 2.0*filter_Freq/fs
         B, A = sps.butter(N, Wn, output = 'ba')
         
         data1 = sps.filtfilt(B,A, data1)
