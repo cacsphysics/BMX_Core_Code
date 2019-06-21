@@ -62,7 +62,7 @@ def bDot_Array_Name(indicator):
     
     return output
 
-def BMX_Magnetic_BDOT(filename, data_Structure, output_Type = 'bdot', starting_Time = 0, mean_Subtraction = True, cutoff_Region = False, max_Range = 1, ending_Time = -1):
+def BMX_Magnetic_BDOT(filename, data_Structure, output_Type = 'bdot', starting_Time = 0, mean_Subtraction = True, apply_Filter = True, cutoff_Region = False, max_Range = 1, ending_Time = -1, filter_Freq = 1e7):
     ####################################################################################################################
     """ This will be a general loading script. For now it will only contain barebones. """
     ####################################################################################################################
@@ -425,7 +425,20 @@ def BMX_Magnetic_BDOT(filename, data_Structure, output_Type = 'bdot', starting_T
             data3 = data3[starting_Index:]
             data4 = data4[starting_Index:]
         """
+    if apply_Filter:
         
+        fs = time[1] - time[0]
+        N = 4
+        Wn = filter_Freq/(fs/2.0)
+        B, A = sps.butter(N, Wn, output = 'ba')
+        
+        data1 = sps.filtfilt(B,A, data1)
+        data2 = sps.filtfilt(B,A, data2)
+        data3 = sps.filtfilt(B,A, data3)
+        data4 = sps.filtfilt(B,A, data4)
+    else:
+        pass    
+    
     return data1, data2, time, data3, data4
 
 def BMX_Magnetic_Field_ZT_PM(filename, starting_Index = 0, mean_Cutoff = 0 , max_Range = 1, ending_Index = -1,
