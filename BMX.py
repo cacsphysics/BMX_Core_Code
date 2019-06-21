@@ -4,7 +4,7 @@ Created on Wed Mar 13 14:36:19 2019
  This will be a growing list of functions.
 @author: Shadow
 """
-
+#Github is dumb
 import numpy as np
 import matplotlib.pylab as plt
 import scipy.integrate as sp
